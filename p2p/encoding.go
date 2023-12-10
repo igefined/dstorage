@@ -3,12 +3,12 @@ package p2p
 import "io"
 
 type Decoder interface {
-	Decode(io.Reader, *Message) error
+	Decode(io.Reader, *RPC) error
 }
 
 type DefaultDecoder struct{}
 
-func (d DefaultDecoder) Decode(reader io.Reader, msg *Message) error {
+func (d DefaultDecoder) Decode(reader io.Reader, rpc *RPC) error {
 	buf := make([]byte, 1024)
 
 	n, err := reader.Read(buf)
@@ -16,7 +16,7 @@ func (d DefaultDecoder) Decode(reader io.Reader, msg *Message) error {
 		return err
 	}
 
-	msg.Payload = buf[:n]
+	rpc.Payload = buf[:n]
 
 	return nil
 }
